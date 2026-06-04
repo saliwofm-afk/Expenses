@@ -31,29 +31,35 @@ document
 
     e.preventDefault();
 
-    const input =
-      document.getElementById("response");
-
-    const message =
-      document.getElementById("message");
+    const input = document.getElementById("response");
+    const message = document.getElementById("message");
 
     try {
 
-      await fetch(WEB_APP_URL, {
+      const res = await fetch(WEB_APP_URL, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
           response: input.value
         })
       });
 
+      const text = await res.text();
+
+      console.log("Status:", res.status);
+      console.log("Response:", text);
+
       input.value = "";
-      message.textContent =
-        "Submitted successfully!";
+      message.textContent = "Submitted successfully!";
 
     } catch (err) {
 
+      console.error(err);
+
       message.textContent =
-        "Submission failed.";
+        "Submission failed: " + err.message;
     }
   });
 </script>
