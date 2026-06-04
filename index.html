@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Response Form</title>
+</head>
+<body>
+
+<form id="responseForm">
+  <input
+    type="text"
+    id="response"
+    placeholder="Enter response"
+    required
+  />
+
+  <button type="submit">
+    Submit
+  </button>
+</form>
+
+<p id="message"></p>
+
+<script>
+const WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbwnW7SkLk36K6T1-6d7jov4opHFsGXxXkvt4t7YgKkm6RpRwPqpmBeaPedauj-jgVJd/exec";
+
+document
+  .getElementById("responseForm")
+  .addEventListener("submit", async function(e) {
+
+    e.preventDefault();
+
+    const input =
+      document.getElementById("response");
+
+    const message =
+      document.getElementById("message");
+
+    try {
+
+      await fetch(WEB_APP_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          response: input.value
+        })
+      });
+
+      input.value = "";
+      message.textContent =
+        "Submitted successfully!";
+
+    } catch (err) {
+
+      message.textContent =
+        "Submission failed.";
+    }
+  });
+</script>
+
+</body>
+</html>
